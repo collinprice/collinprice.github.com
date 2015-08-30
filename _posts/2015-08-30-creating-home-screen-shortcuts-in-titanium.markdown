@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Creating Home Screen Shortcut's in Titanium"
+date: 2015-08-30T15:11:18-04:00
 ---
 
 The following guide will explain how to create home screen shortcuts on Android using the [Titanium][titanium] platform.
@@ -65,8 +66,22 @@ var shortcutIntent = Ti.Android.createIntent({
 });
 ```
 
-In Android, [Intent's][intent] are descriptions of operations to be performed. In the code sample we created a `shortcutIntent` that will perform the INSTALL_SHORTCUT action. 
+Now, let me explain what is happening here.
 
+In Android, [Intent's][intent] are descriptions of operations to be performed. In the code sample we created a `shortcutIntent` that will perform the INSTALL_SHORTCUT action. We also assigned a name and icon for our shortcut. The `duplicate` attribute set to `false` so that we don't accidentally add the shortcut twice. There currently is no API on Android to detect if a shortcut has been set. In order for our app to know what to do when the user selects the shortcut we must add an Intent to our shortcut Intent. This intent describes the entry point to our app. In Titanium there is only one entry point so we will just set this to `Ti.Android.ACTION_MAIN`. We will have to add metadata to our Intent so that we will know what do to when the app is launched from the shortcut.
+
+Your question now is probably, how do I know when my app was launched using the shortcut? Well that answer depends on what metadata you added to your Intent. Using Titanium your app will always be launched in a new instance on Android so you will have to determine in your `index.js` or `app.js` files if it was launched from a shortcut. For my example I will check in my `index.js` file if my app was launched from a shortcut.
+
+```javascript
+
+if(Ti.Android.currentActivity.getIntent().getStringExtra("shortcut")) {
+  // App was launched from shortcut.
+} else {
+  // App was launched normally.
+}
+```
+
+I hope this tutorial has helped. Please feel free to message me if you have any questions.
 
 [titanium]: https://github.com/appcelerator/titanium_mobile
 [intent-module]: https://github.com/collinprice/ca.intentextension
