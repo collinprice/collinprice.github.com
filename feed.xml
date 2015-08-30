@@ -6,9 +6,98 @@
 </description>
     <link>http://collinprice.com/</link>
     <atom:link href="http://collinprice.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 29 Aug 2015 13:55:45 -0400</pubDate>
-    <lastBuildDate>Sat, 29 Aug 2015 13:55:45 -0400</lastBuildDate>
+    <pubDate>Sun, 30 Aug 2015 15:13:53 -0400</pubDate>
+    <lastBuildDate>Sun, 30 Aug 2015 15:13:53 -0400</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
+    
+      <item>
+        <title>Creating Home Screen Shortcut&#39;s in Titanium</title>
+        <description>&lt;p&gt;The following guide will explain how to create home screen shortcuts on Android using the &lt;a href=&quot;https://github.com/appcelerator/titanium_mobile&quot;&gt;Titanium&lt;/a&gt; platform.&lt;/p&gt;
+
+&lt;p&gt;As of version &lt;code&gt;4.1.0.GA&lt;/code&gt; of the Titanium SDK creating home screen shortcuts is not possible out of the box. Luckily, I have created a &lt;a href=&quot;https://github.com/collinprice/ca.intentextension&quot;&gt;module&lt;/a&gt; to fill in the missing features and created a &lt;a href=&quot;https://github.com/appcelerator/titanium_mobile/pull/7073&quot;&gt;pull request&lt;/a&gt; that will add these features to Titanium.&lt;/p&gt;
+
+&lt;p&gt;First, we have to add the necessary permissions to the Android Manifest in our &lt;code&gt;tiapp.xml&lt;/code&gt; file. These two permissions allow your app to add/remove home screen shortcuts programmatically. Users can still manually remove a shortcut from the home screen without the uninstall permission.&lt;/p&gt;
+
+&lt;p&gt;```xml&lt;/p&gt;
+&lt;ti:app xmlns:ti=&quot;http://ti.appcelerator.org&quot;&gt;
+  ...
+  &lt;android xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
+    &lt;manifest&gt;
+
+      &lt;!-- Permissions to add --&gt;
+      &lt;uses-permission android:name=&quot;com.android.launcher.permission.INSTALL_SHORTCUT&quot; /&gt;
+      &lt;uses-permission android:name=&quot;com.android.launcher.permission.UNINSTALL_SHORTCUT&quot; /&gt;
+
+    &lt;/manifest&gt;
+  &lt;/android&gt;
+  ...
+&lt;/ti:app&gt;
+&lt;p&gt;```&lt;/p&gt;
+
+&lt;p&gt;Next, you have to download the &lt;a href=&quot;https://github.com/collinprice/ca.intentextension/releases&quot;&gt;latest release&lt;/a&gt; of the Intent Extension module. If you have never manually installed a titanium module there is a &lt;a href=&quot;http://docs.appcelerator.com/platform/latest/#!/guide/Using_a_Module&quot;&gt;great guide&lt;/a&gt; in Appcelerator’s documentation. The Intent Extension module is currently required because the method &lt;code&gt;putExtra&lt;/code&gt; does not accept &lt;code&gt;Intent&lt;/code&gt; or &lt;code&gt;Blob&lt;/code&gt; types as values. More information can be found in the modules README.&lt;/p&gt;
+
+&lt;p&gt;Lastly, here is a code sample for creating a home screen shortcut.&lt;/p&gt;
+
+&lt;p&gt;```javascript
+var currentIntent = Ti.Android.currentActivity.getIntent();
+currentIntent.setAction(Ti.Android.ACTION_MAIN);&lt;/p&gt;
+
+&lt;p&gt;// Add custom metadata to read when your App is launched from the shortcut.
+currentIntent.putExtra(“shortcut”, “gallery”);&lt;/p&gt;
+
+&lt;p&gt;// Create an Intent and pass it to the module.
+var IntentExtension = require(‘ca.intentextension’);
+var shortcutIntent = IntentExtension.getIntentExtension(Ti.Android.createIntent({
+  action: “com.android.launcher.action.INSTALL_SHORTCUT”,
+  // Use com.android.launcher.action.UNINSTALL_SHORTCUT to remove the shortcut
+}));&lt;/p&gt;
+
+&lt;p&gt;// Title that will appear with the shortcut
+shortcutIntent.putExtra(Ti.Android.EXTRA_SHORTCUT_NAME, “Gallery”);&lt;/p&gt;
+
+&lt;p&gt;shortcutIntent.putExtra(Ti.Android.EXTRA_SHORTCUT_INTENT, currentIntent);
+shortcutIntent.putExtra(“duplicate”, false);&lt;/p&gt;
+
+&lt;p&gt;// Set the icon for the shortcut
+var iconImage = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, “appicon.png”).read();
+shortcutIntent.putExtra(Ti.Android.EXTRA_SHORTCUT_ICON, iconImage);&lt;/p&gt;
+
+&lt;p&gt;// Adds the shortcut to the home screen.
+Ti.Android.currentActivity.sendBroadcast(shortcutIntent);
+```&lt;/p&gt;
+
+&lt;p&gt;If Titanium’s Intent’s allowed &lt;code&gt;Intent&lt;/code&gt; or &lt;code&gt;Blob&lt;/code&gt; types to be passed to the &lt;code&gt;putExtra&lt;/code&gt; method, the &lt;code&gt;shortcutIntent&lt;/code&gt; instantiation line would look like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;javascript
+var shortcutIntent = Ti.Android.createIntent({
+  action: &quot;com.android.launcher.action.INSTALL_SHORTCUT&quot;,
+});
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Now, let me explain what is happening here.&lt;/p&gt;
+
+&lt;p&gt;In Android, &lt;a href=&quot;http://developer.android.com/reference/android/content/Intent.html&quot;&gt;Intent’s&lt;/a&gt; are descriptions of operations to be performed. In the code sample we created a &lt;code&gt;shortcutIntent&lt;/code&gt; that will perform the INSTALL_SHORTCUT action. We also assigned a name and icon for our shortcut. The &lt;code&gt;duplicate&lt;/code&gt; attribute set to &lt;code&gt;false&lt;/code&gt; so that we don’t accidentally add the shortcut twice. There currently is no API on Android to detect if a shortcut has been set. In order for our app to know what to do when the user selects the shortcut we must add an Intent to our shortcut Intent. This intent describes the entry point to our app. In Titanium there is only one entry point so we will just set this to &lt;code&gt;Ti.Android.ACTION_MAIN&lt;/code&gt;. We will have to add metadata to our Intent so that we will know what do to when the app is launched from the shortcut.&lt;/p&gt;
+
+&lt;p&gt;Your question now is probably, how do I know when my app was launched using the shortcut? Well that answer depends on what metadata you added to your Intent. Using Titanium your app will always be launched in a new instance on Android so you will have to determine in your &lt;code&gt;index.js&lt;/code&gt; or &lt;code&gt;app.js&lt;/code&gt; files if it was launched from a shortcut. For my example I will check in my &lt;code&gt;index.js&lt;/code&gt; file if my app was launched from a shortcut.&lt;/p&gt;
+
+&lt;p&gt;```javascript&lt;/p&gt;
+
+&lt;p&gt;if(Ti.Android.currentActivity.getIntent().getStringExtra(“shortcut”)) {
+  // App was launched from shortcut.
+} else {
+  // App was launched normally.
+}
+```&lt;/p&gt;
+
+&lt;p&gt;I hope this tutorial has helped. Please feel free to message me if you have any questions.&lt;/p&gt;
+
+</description>
+        <pubDate>Sun, 30 Aug 2015 15:11:18 -0400</pubDate>
+        <link>http://collinprice.com/2015/08/30/creating-home-screen-shortcuts-in-titanium.html</link>
+        <guid isPermaLink="true">http://collinprice.com/2015/08/30/creating-home-screen-shortcuts-in-titanium.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>Welcome to Jekyll!</title>
