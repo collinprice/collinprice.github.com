@@ -2,12 +2,12 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Collin&#39;s Place</title>
-    <description>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+    <description>More coming soon!
 </description>
     <link>http://collinprice.com/</link>
     <atom:link href="http://collinprice.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 30 Aug 2015 20:27:45 -0400</pubDate>
-    <lastBuildDate>Sun, 30 Aug 2015 20:27:45 -0400</lastBuildDate>
+    <pubDate>Wed, 02 Sep 2015 11:47:10 -0400</pubDate>
+    <lastBuildDate>Wed, 02 Sep 2015 11:47:10 -0400</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
@@ -18,55 +18,61 @@
 
 &lt;p&gt;First, we have to add the necessary permissions to the Android Manifest in our &lt;code&gt;tiapp.xml&lt;/code&gt; file. These two permissions allow your app to add/remove home screen shortcuts programmatically. Users can still manually remove a shortcut from the home screen without the uninstall permission.&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-xml&quot; data-lang=&quot;xml&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;ti:app&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;xmlns:ti=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;http://ti.appcelerator.org&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;p&gt;```xml&lt;/p&gt;
+&lt;ti:app xmlns:ti=&quot;http://ti.appcelerator.org&quot;&gt;
   ...
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;android&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;xmlns:android=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;http://schemas.android.com/apk/res/android&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;manifest&amp;gt;&lt;/span&gt;
+  &lt;android xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
+    &lt;manifest&gt;
 
-      &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- Permissions to add --&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;uses-permission&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;android:name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;com.android.launcher.permission.INSTALL_SHORTCUT&amp;quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;uses-permission&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;android:name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;com.android.launcher.permission.UNINSTALL_SHORTCUT&amp;quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+      &lt;!-- Permissions to add --&gt;
+      &lt;uses-permission android:name=&quot;com.android.launcher.permission.INSTALL_SHORTCUT&quot; /&gt;
+      &lt;uses-permission android:name=&quot;com.android.launcher.permission.UNINSTALL_SHORTCUT&quot; /&gt;
 
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/manifest&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/android&amp;gt;&lt;/span&gt;
+    &lt;/manifest&gt;
+  &lt;/android&gt;
   ...
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/ti:app&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/ti:app&gt;
+&lt;p&gt;```&lt;/p&gt;
 
 &lt;p&gt;Next, you have to download the &lt;a href=&quot;https://github.com/collinprice/ca.intentextension/releases&quot;&gt;latest release&lt;/a&gt; of the Intent Extension module. If you have never manually installed a titanium module there is a &lt;a href=&quot;http://docs.appcelerator.com/platform/latest/#!/guide/Using_a_Module&quot;&gt;great guide&lt;/a&gt; in Appcelerator’s documentation. The Intent Extension module is currently required because the method &lt;code&gt;putExtra&lt;/code&gt; does not accept &lt;code&gt;Intent&lt;/code&gt; or &lt;code&gt;Blob&lt;/code&gt; types as values. More information can be found in the modules README.&lt;/p&gt;
 
 &lt;p&gt;Lastly, here is a code sample for creating a home screen shortcut.&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;currentIntent&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Ti&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Android&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;currentActivity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getIntent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;currentIntent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;setAction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Ti&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Android&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ACTION_MAIN&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;p&gt;```javascript
+var currentIntent = Ti.Android.currentActivity.getIntent();
+currentIntent.setAction(Ti.Android.ACTION_MAIN);&lt;/p&gt;
 
-&lt;span class=&quot;c1&quot;&gt;// Add custom metadata to read when your App is launched from the shortcut.&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;currentIntent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;putExtra&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;shortcut&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;gallery&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;p&gt;// Add custom metadata to read when your App is launched from the shortcut.
+currentIntent.putExtra(“shortcut”, “gallery”);&lt;/p&gt;
 
-&lt;span class=&quot;c1&quot;&gt;// Create an Intent and pass it to the module.&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;IntentExtension&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;ca.intentextension&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;shortcutIntent&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;IntentExtension&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getIntentExtension&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Ti&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Android&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;createIntent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;action&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;com.android.launcher.action.INSTALL_SHORTCUT&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;c1&quot;&gt;// Use com.android.launcher.action.UNINSTALL_SHORTCUT to remove the shortcut&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}));&lt;/span&gt;
+&lt;p&gt;// Create an Intent and pass it to the module.
+var IntentExtension = require(‘ca.intentextension’);
+var shortcutIntent = IntentExtension.getIntentExtension(Ti.Android.createIntent({
+  action: “com.android.launcher.action.INSTALL_SHORTCUT”,
+  // Use com.android.launcher.action.UNINSTALL_SHORTCUT to remove the shortcut
+}));&lt;/p&gt;
 
-&lt;span class=&quot;c1&quot;&gt;// Title that will appear with the shortcut&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;shortcutIntent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;putExtra&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Ti&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Android&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;EXTRA_SHORTCUT_NAME&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Gallery&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;p&gt;// Title that will appear with the shortcut
+shortcutIntent.putExtra(Ti.Android.EXTRA_SHORTCUT_NAME, “Gallery”);&lt;/p&gt;
 
-&lt;span class=&quot;nx&quot;&gt;shortcutIntent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;putExtra&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Ti&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Android&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;EXTRA_SHORTCUT_INTENT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;currentIntent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;shortcutIntent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;putExtra&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;duplicate&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;p&gt;shortcutIntent.putExtra(Ti.Android.EXTRA_SHORTCUT_INTENT, currentIntent);
+shortcutIntent.putExtra(“duplicate”, false);&lt;/p&gt;
 
-&lt;span class=&quot;c1&quot;&gt;// Set the icon for the shortcut&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;iconImage&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Ti&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Filesystem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getFile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Ti&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Filesystem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resourcesDirectory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;appicon.png&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;shortcutIntent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;putExtra&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Ti&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Android&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;EXTRA_SHORTCUT_ICON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;iconImage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;p&gt;// Set the icon for the shortcut
+var iconImage = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, “appicon.png”).read();
+shortcutIntent.putExtra(Ti.Android.EXTRA_SHORTCUT_ICON, iconImage);&lt;/p&gt;
 
-&lt;span class=&quot;c1&quot;&gt;// Adds the shortcut to the home screen.&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;Ti&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Android&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;currentActivity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sendBroadcast&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;shortcutIntent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;// Adds the shortcut to the home screen.
+Ti.Android.currentActivity.sendBroadcast(shortcutIntent);
+```&lt;/p&gt;
 
 &lt;p&gt;If Titanium’s Intent’s allowed &lt;code&gt;Intent&lt;/code&gt; or &lt;code&gt;Blob&lt;/code&gt; types to be passed to the &lt;code&gt;putExtra&lt;/code&gt; method, the &lt;code&gt;shortcutIntent&lt;/code&gt; instantiation line would look like this:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;shortcutIntent&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Ti&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Android&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;createIntent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;action&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;com.android.launcher.action.INSTALL_SHORTCUT&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code&gt;javascript
+var shortcutIntent = Ti.Android.createIntent({
+  action: &quot;com.android.launcher.action.INSTALL_SHORTCUT&quot;,
+});
+&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;Now, let me explain what is happening here.&lt;/p&gt;
 
@@ -74,11 +80,14 @@
 
 &lt;p&gt;Your question now is probably, how do I know when my app was launched using the shortcut? Well that answer depends on what metadata you added to your Intent. Using Titanium your app will always be launched in a new instance on Android so you will have to determine in your &lt;code&gt;index.js&lt;/code&gt; or &lt;code&gt;app.js&lt;/code&gt; files if it was launched from a shortcut. For my example I will check in my &lt;code&gt;index.js&lt;/code&gt; file if my app was launched from a shortcut.&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Ti&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Android&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;currentActivity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getIntent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getStringExtra&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;shortcut&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;c1&quot;&gt;// App was launched from shortcut.&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;c1&quot;&gt;// App was launched normally.&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;```javascript&lt;/p&gt;
+
+&lt;p&gt;if(Ti.Android.currentActivity.getIntent().getStringExtra(“shortcut”)) {
+  // App was launched from shortcut.
+} else {
+  // App was launched normally.
+}
+```&lt;/p&gt;
 
 &lt;p&gt;I hope this tutorial has helped. Please feel free to message me if you have any questions.&lt;/p&gt;
 
