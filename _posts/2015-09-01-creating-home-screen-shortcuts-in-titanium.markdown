@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Creating Home Screen Shortcut's in Titanium"
-date: 2015-08-30T15:11:18-04:00
+date: 2015-09-01T15:11:18-04:00
 ---
 
 The following guide will explain how to create home screen shortcuts on Android using the [Titanium][titanium] platform.
